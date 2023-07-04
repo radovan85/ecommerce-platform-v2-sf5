@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<th:block th:fragment="ajaxLoadedContent">
+
+	<div class="container" 
+		style="margin-top: 120px;margin-bottom: 150px;font-family: Oswald, sans-serif;color: #12044F;">
+		<th:block th:if="${allCategories.isEmpty()}">
+			<div class="text-center">
+				<h2>No categories available</h2>
+				<div class=mt-5></div>
+				<button class="btn-creator-grey mr-3"
+					th:onclick="redirectAdmin()">
+					Admin Panel
+				</button>
+				<button class="btn-creator-grey"
+					th:onclick="redirectAddCategory()">
+					Add Category
+				</button>
+			</div>
+		</th:block>
+		
+		<th:block th:if="${!allCategories.isEmpty()}">
+			<div class="text-center">
+				<h2>Category List</h2>
+			</div>
+			
+			<div class="mt-5 mb-4">
+				<button class="btn-creator-blue-light"
+					th:onclick="redirectAddCategory()">
+					Add Category
+				</button>
+			</div>
+			
+			<table class="table table-bordered table-stripped table-secondary table-hover" id="listingTable">
+				<thead class="table-primary">
+					<tr>
+						<th class="text-center"
+							style="text-align: center; vertical-align: middle" th:text="${'Category Id'}">
+						</th>
+						<th class="text-center"
+							style="text-align: center; vertical-align: middle" th:text="${'Name'}">
+						</th>
+						<th class="text-center"
+							style="text-align: center; vertical-align: middle" th:text="${'Actions'}">
+						</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr th:each="tempCategory : ${allCategories}">
+						<td class="text-center"
+							style="text-align: center; vertical-align: middle"
+							th:text="${tempCategory.productCategoryId}">
+						</td>
+						<td class="text-center"
+							style="text-align: center; vertical-align: middle"
+							th:text="${tempCategory.name}">
+						</td>
+						<td class="text-center"
+							style="text-align: center; vertical-align: middle">
+							<div class="dropdown">
+								<button type="button" class="btn-creator-blue-light dropdown-toggle" data-toggle="dropdown">
+                        			Actions
+                    			</button>
+								<div class="dropdown-menu">
+									<button class="dropdown-item btn-creator-blue-light"  
+										th:onclick="redirectUpdateCategory([[${tempCategory.productCategoryId}]])"
+										th:text="${'Update'}">
+									</button>
+									<button class="dropdown-item btn-creator-red" 
+										th:onclick="deleteCategory([[${tempCategory.productCategoryId}]])"
+										th:text="${'Delete'}">
+									</button>					
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</th:block>
+	</div>
+</th:block>
